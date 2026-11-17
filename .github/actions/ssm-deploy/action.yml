@@ -97,5 +97,7 @@ runs:
           Success|Failed|Cancelled|TimedOut) ;;
           *) echo "Stopped waiting; the command may still be running on the instance (id: $CMD_ID)" >&2 ;;
         esac
+        
+        echo "### Deploy \`$TAG\`: $STATUS" >> "$GITHUB_STEP_SUMMARY"
 
         test "$STATUS" = "Success"
