@@ -82,3 +82,33 @@ jobs:
           tags: ${{ env.IMAGE }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+  deploy:
+    needs: image
+    runs-on: ubuntu-latest
+    environment: production
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy to EC2
+        uses: ./.github/actions/ssm-deploy
+        with:
+          instance-id: ${{ secrets.INSTANCE_ID }}
+          tag: ${{ needs.image.outputs.tag }}
+
+      - name: Smoke test from the internet
+        env:
+          APP_HOST: ${{ secrets.APP_HOST }}
+        run: |
+          curl --fail --silent --show-error --retry 10 --retry-delay 3 \
+            --retry-all-errors "http://$APP_HOST:8080/api/hello"
