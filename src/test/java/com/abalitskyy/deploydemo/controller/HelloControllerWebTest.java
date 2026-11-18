@@ -22,7 +22,7 @@ class HelloControllerWebTest {
         mvc.perform(get("/api/hello").accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.message").value("WELCOME from deploy-demo!"))
+            .andExpect(jsonPath("$.message").value("Good morning from deploy-demo!"))
             .andExpect(jsonPath("$.version").value("a1b2c3d4e5f6"));
     }
 
