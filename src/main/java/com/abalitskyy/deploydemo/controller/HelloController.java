@@ -17,6 +17,6 @@ public class HelloController {
 
     @GetMapping("/api/hello")
     public Map<String, String> hello() {
-        return Map.of("message", "Hello everyone from deploy-demo!", "version", version);
+        return Map.of("message", "Welcome everyone from deploy-demo!", "version", version);
     }
 }
