@@ -44,6 +44,19 @@ flowchart LR
 - Added automatic rollback when the health check fails
 - Created a manual rollback workflow for any earlier image
 
+## Screenshots
+
+![Pull request blocked by a failing test](docs/pr-blocked.png)
+![Pipeline: test → image → deploy](docs/pipeline1.png)
+![Deployment waiting for approval](docs/approval.png)
+![Pipeline: test → image → deploy](docs/pipeline2.png)
+![Images in Amazon ECR, tagged by commit](docs/ecr.png)
+![The app showing the deployed version](docs/app-version.png)
+
+## Demo video
+
+[Watch the demo](https://www.youtube.com/watch?v=yyBP_bz-9qU): failing test blocks the merge → fix and merge → approve the deployment → new version live → rollback to the previous image.
+
 ## Decisions
 
 * **OIDC instead of AWS keys:** no need long-lived secret
